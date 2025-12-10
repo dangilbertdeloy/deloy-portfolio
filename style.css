@@ -1,0 +1,97 @@
+/* ------------------------------
+   Base & typography
+   ------------------------------ */
+* { box-sizing: border-box; margin:0; padding:0; }
+html,body { height:100%; width:100%; font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color:#fff; }
+body { background: linear-gradient(135deg, #e3e1ff, #f6dbe6, #dff7ff); overflow-x:hidden; }
+
+/* Dark overlay */
+.overlay {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.45);
+  z-index:0;
+  pointer-events:none;
+}
+
+/* Fade-in page */
+.fade { animation: fadeIn 700ms ease both; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: none; } }
+
+/* Loader overlay */
+.loader { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background: linear-gradient(180deg, rgba(10,10,20,0.25), rgba(10,10,20,0.45)); pointer-events:none; }
+.loader-inner { pointer-events:auto; text-align:center; color:#fff; }
+.loader-ring { width:64px; height:64px; border-radius:50%; border:6px solid rgba(255,255,255,0.08); border-top-color: rgba(255,255,255,0.8); animation: spin 1s linear infinite; margin:0 auto 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader p { font-size:0.95rem; opacity:0.95; }
+
+/* Canvas & orbs */
+#dreamCanvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; }
+#parallaxOrbs { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; overflow:hidden; }
+.orb { position:absolute; width:140px; height:140px; border-radius:50%; filter: blur(36px); background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.65), rgba(255,255,255,0.02)); animation: floatOrb 11s ease-in-out infinite alternate; opacity:0.9; }
+@keyframes floatOrb { from { transform: translateY(0px) } to { transform: translateY(-60px) } }
+
+/* Content layer */
+.content-layer { position:relative; z-index:3; }
+
+/* Welcome / auth styles */
+.welcome-container { text-align:center; padding:24px; margin-top:18vh; }
+.welcome-title { font-size: clamp(2.5rem, 7vw, 4rem); text-shadow: 0 0 28px rgba(255,255,255,0.85); color:#fff; animation: dreamyText 5s infinite alternate; }
+.welcome-subtitle { margin-top:8px; color: rgba(255,255,255,0.92); font-size:1.05rem; }
+@keyframes dreamyText { from { transform: translateY(0); } to { transform: translateY(-18px); } }
+
+/* Buttons */
+.button-group { margin-top:28px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+.glow-btn { padding:12px 28px; border-radius:16px; background: rgba(255,255,255,0.28); border:none; color:#fff; font-size:clamp(0.95rem,3.5vw,1.05rem); cursor:pointer; box-shadow: 0 8px 30px rgba(255,255,255,0.08); transition:transform .18s ease, box-shadow .18s ease; }
+@media (hover:hover){ .glow-btn:hover{ transform:scale(1.04); box-shadow: 0 12px 40px rgba(255,255,255,0.14); } }
+
+/* Auth inputs */
+.auth-container { margin-top:12vh; text-align:center; padding:18px; }
+.auth-container input { display:block; margin:12px auto; width:min(360px,88%); padding:12px; border-radius:10px; border:none; background: rgba(255,255,255,0.08); color:#fff; font-size:1rem; }
+
+/* Auth links */
+.auth-links { margin-top:12px; opacity:0.95; }
+.auth-links a { color: #fff; text-decoration:underline; cursor:pointer; }
+
+/* Audio control */
+.audio-control { margin-top:16px; }
+.audio-btn { background:transparent; border:1px solid rgba(255,255,255,0.12); padding:8px 12px; border-radius:10px; color:#fff; cursor:pointer; }
+
+/* Quote banner */
+.quote-banner { margin-top:18px; min-height:36px; opacity:0.95; font-style:italic; }
+
+/* Top nav (portfolio) */
+.top-nav { position:fixed; top:12px; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:8px 20px; z-index:4; gap:10px; }
+.nav-left .nav-logo { background:transparent; border:none; color:#fff; font-weight:600; font-size:1rem; cursor:pointer; }
+.nav-right { display:flex; gap:10px; align-items:center; }
+.nav-btn { background: rgba(255,255,255,0.06); border:none; padding:8px 12px; border-radius:10px; color:#fff; cursor:pointer; }
+
+/* Portfolio layout */
+.portfolio-container { padding:8vw 6vw; z-index:3; max-width:1200px; margin:0 auto; }
+.portfolio-title { font-size:clamp(2rem,5vw,3.5rem); margin-bottom:6px; text-shadow:0 0 16px rgba(255,255,255,0.85); }
+.sub { opacity:0.92; margin-bottom:28px; }
+
+/* About */
+.about-me h2 { margin-bottom:14px; }
+.profile { display:flex; gap:22px; align-items:center; flex-wrap:wrap; }
+.profile-pic { width:clamp(120px,28vw,180px); height:clamp(120px,28vw,180px); object-fit:cover; border-radius:50%; border:3px solid rgba(255,255,255,0.9); }
+
+/* Projects grid */
+.projects { margin-top:34px; }
+.project-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-top:16px; }
+.project-card { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); padding:16px; border-radius:12px; box-shadow: 0 6px 30px rgba(5,5,10,0.25); transition: transform .2s ease; overflow:hidden; }
+.project-card:hover { transform: translateY(-6px); }
+.project-head { display:flex; justify-content:space-between; align-items:center; }
+.expand-btn { background:rgba(255,255,255,0.06); border:none; color:#fff; padding:6px 10px; border-radius:8px; cursor:pointer; }
+.project-body { margin-top:10px; color:rgba(255,255,255,0.92); }
+.project-details { margin-top:10px; max-height:0; overflow:hidden; transition: max-height 350ms ease; opacity:0; }
+.project-card.expanded .project-details { max-height:240px; opacity:1; }
+
+/* Small screens */
+@media (max-width:768px){
+  .top-nav { padding:10px; }
+  .portfolio-container { padding:6vw 4vw; }
+  .welcome-container { margin-top:12vh; padding:14px; }
+  .project-grid { gap:12px; }
+  .auth-container { margin-top:8vh; }
+}

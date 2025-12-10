@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register - Dreamscape</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="fade">
+
+  <div class="overlay"></div>
+
+  <div id="loader" class="loader" style="display:none;">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <p>Creating your dream...</p>
+    </div>
+  </div>
+
+  <canvas id="dreamCanvas"></canvas>
+  <div id="parallaxOrbs"></div>
+
+  <div class="auth-container content-layer">
+    <h2>Create Account</h2>
+
+    <form id="registerForm">
+      <input type="text" id="newUsername" placeholder="New username" required />
+      <input type="password" id="newPassword" placeholder="New password" required />
+      <button class="glow-btn" type="submit">Register</button>
+    </form>
+
+    <div class="auth-links">
+      <a href="login.html">Already have account?</a> • <a onclick="goHome()" class="back-link">Back</a>
+    </div>
+
+    <div class="audio-control" style="margin-top:18px;">
+      <button id="audioToggleRegister" class="audio-btn">🔈 Ambient Off</button>
+    </div>
+  </div>
+
+  <audio id="ambientAudioRegister" loop src="audio/ambient.mp3"></audio>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

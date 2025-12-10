@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dreamscape</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="fade">
+
+  <!-- Dark overlay for readability -->
+  <div class="overlay"></div>
+
+  <!-- Loading overlay -->
+  <div id="loader" class="loader">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <p>Drifting into Dreamscape...</p>
+    </div>
+  </div>
+
+  <!-- Canvas + parallax orbs -->
+  <canvas id="dreamCanvas"></canvas>
+  <div id="parallaxOrbs"></div>
+
+  <!-- Welcome content -->
+  <div class="welcome-container content-layer">
+    <h1 class="welcome-title">Welcome to Dreamscape</h1>
+    <p class="welcome-subtitle">Where imagination breathes in colors</p>
+
+    <div class="button-group">
+      <button onclick="goToLogin()" class="glow-btn">Log In</button>
+      <button onclick="goToRegister()" class="glow-btn">Register</button>
+    </div>
+
+    <!-- floating quotes -->
+    <div id="quoteBanner" class="quote-banner"></div>
+
+    <!-- ambient audio control -->
+    <div class="audio-control">
+      <button id="audioToggle" class="audio-btn">🔈 Ambient Off</button>
+    </div>
+  </div>
+
+  <audio id="ambientAudio" loop src="audio/ambient.mp3"></audio>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Log In - Dreamscape</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="fade">
+
+  <div class="overlay"></div>
+
+  <div id="loader" class="loader" style="display:none;">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <p>Entering Dreamscape...</p>
+    </div>
+  </div>
+
+  <canvas id="dreamCanvas"></canvas>
+  <div id="parallaxOrbs"></div>
+
+  <div class="auth-container content-layer">
+    <h2>Log In</h2>
+
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button class="glow-btn" type="submit">Enter Dreamscape</button>
+    </form>
+
+    <div class="auth-links">
+      <a href="register.html">Create account</a> • <a onclick="goHome()" class="back-link">Back</a>
+    </div>
+
+    <div class="audio-control" style="margin-top:18px;">
+      <button id="audioToggleLogin" class="audio-btn">🔈 Ambient Off</button>
+    </div>
+  </div>
+
+  <audio id="ambientAudioLogin" loop src="audio/ambient.mp3"></audio>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
