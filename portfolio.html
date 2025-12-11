@@ -1,39 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Portfolio - Dreamscape</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dreamscape — Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
-<body class="page-enter">
 
-  <div class="loader" style="display:flex"><div class="loader-inner"><div class="loader-ring"></div><p>Welcome back to your dreamspace…</p></div></div>
+<body class="fade">
 
-  <div class="overlay"></div>
-  <canvas id="dreamCanvas"></canvas>
-  <div id="parallaxOrbs"></div>
-  <div id="floatingShapes"></div>
+    <!-- Particles -->
+    <canvas id="dreamCanvas"></canvas>
+    <div id="parallaxOrbs"></div>
 
-  <nav class="top-nav content-layer">
-    <div class="nav-left"><button class="nav-logo" onclick="window.location.href='index.html'">Dreamscape</button></div>
-    <div class="nav-right">
-      <button class="nav-btn" onclick="scrollToSection('projects')">Projects</button>
-      <button class="nav-btn" onclick="scrollToSection('about')">About</button>
-      <button class="nav-btn" id="audioTogglePortfolio">🔈</button>
-      <button class="nav-btn" id="logoutBtn">Log Out</button>
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="nav-logo" onclick="window.location.href='index.html'">
+                Dreamscape
+            </button>
+        </div>
+
+        <div class="nav-right">
+            <button class="nav-btn" onclick="window.location.href='portfolio.html'">Projects</button>
+            <button class="nav-btn" onclick="window.location.href='portfolio.html#about'">About</button>
+
+            <!-- Audio Button -->
+            <button id="audioToggle" class="nav-btn">🔊</button>
+
+            <button class="nav-btn" onclick="logout()">Log Out</button>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="portfolio-container content-layer">
+
+        <!-- ABOUT SECTION — shown only once -->
+        <section id="about" class="about-me fade">
+            <h1 class="portfolio-title">About Me</h1>
+
+            <div class="profile">
+                <img src="assets/profile.jpg" alt="Profile" class="profile-pic">
+
+                <div class="profile-text">
+                    <p><strong>Name:</strong> Dan Gilbert P. Deloy</p>
+                    <p><strong>Username:</strong> pocketful.of.sunshine</p>
+                    <p><strong>Email:</strong> dangilbertpdeloy@gmail.com</p>
+                    <p><strong>Bio:</strong> I am the creator of this website!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SECTION — shown only once -->
+        <section id="projects" class="projects fade">
+            <h1 class="portfolio-title">Projects</h1>
+
+            <div class="project-grid">
+                <!-- Example Project -->
+                <div class="project-card">
+                    <div class="project-head">
+                        <h3>Project A — Dream Visuals</h3>
+                        <button class="expand-btn" onclick="toggleProject(this)">+</button>
+                    </div>
+
+                    <div class="project-details">
+                        <p>This project showcases early dreamcore design concepts.</p>
+                    </div>
+                </div>
+
+                <!-- Add more project cards here -->
+            </div>
+        </section>
     </div>
-  </nav>
 
-  <main class="portfolio-container content-layer">
-    <header>
-      <h1 class="portfolio-title">Welcome, <span id="portfolioUser">Traveler</span> ✦</h1>
-      <p class="sub">Glad you're here, traveler.</p>
-    </header>
+    <!-- Audio Element -->
+    <audio id="bgAudio" loop>
+        <source src="assets/ambient.mp3" type="audio/mp3" />
+    </audio>
 
-    <section id="about" class="about-me">
-      <h2>About Me</h2>
-      <div class="profile">
+    <script src="particles.js"></script>
+    <script src="main.js"></script>
+    <script src="audio.js"></script>
+</body>
+</html>
         <img src="img/profile.png" class="profile-pic" alt="Your photo" />
         <div class="personal-info">
           <p><strong>Name:</strong> Dan Gilbert P. Deloy</p>
@@ -285,6 +337,7 @@
   </script>
 </body>
 </html>
+
 
 
 
