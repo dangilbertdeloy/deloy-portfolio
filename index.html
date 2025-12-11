@@ -1,63 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dreamscape</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="fade">
 
   <div class="overlay"></div>
-
-  <div id="loader" class="loader" style="display:none;">
-    <div class="loader-inner">
-      <div class="loader-ring"></div>
-      <p>Welcome to your dreamspace…</p>
-    </div>
-  </div>
-
   <canvas id="dreamCanvas"></canvas>
   <div id="parallaxOrbs"></div>
 
-  <!-- Main content centered -->
-  <main class="content-layer index-container">
-    <div class="welcome-container">
-      <h1 class="welcome-title">Welcome to Dreamscape ✦</h1>
-      <p class="welcome-subtitle">Step into your personalized dreamworld.</p>
-
-      <div class="button-group">
-        <a href="login.html" class="glow-btn">Log In</a>
-        <a href="register.html" class="glow-btn">Register</a>
-      </div>
-
-      <div class="audio-control">
-        <button id="audioToggleIndex" class="audio-btn">🔈 Ambient Off</button>
-      </div>
+  <div class="welcome-container content-layer">
+    <h1 class="welcome-title">Welcome to Dreamscape</h1>
+    <p class="welcome-subtitle">Step into your dream world.</p>
+    <div class="button-group">
+      <button onclick="window.location.href='login.html'" class="glow-btn">Log In</button>
+      <button onclick="window.location.href='register.html'" class="glow-btn">Register</button>
     </div>
-  </main>
+  </div>
 
   <audio id="ambientAudioIndex" loop src="audio/ambient.mp3"></audio>
+  <div class="audio-control" style="position:fixed; bottom:12px; left:50%; transform:translateX(-50%); z-index:5;">
+    <button id="audioToggleIndex" class="audio-btn">🔈 Ambient Off</button>
+  </div>
 
+  <script type="module" src="js/particles.js"></script>
   <script>
-    // Ambient music toggle
     const ambientAudio = document.getElementById('ambientAudioIndex');
     const toggleBtn = document.getElementById('audioToggleIndex');
-
-    toggleBtn.addEventListener('click', () => {
-      if (ambientAudio.paused) {
-        ambientAudio.play();
-        toggleBtn.textContent = '🔈 Ambient On';
-      } else {
-        ambientAudio.pause();
-        toggleBtn.textContent = '🔈 Ambient Off';
-      }
+    toggleBtn.addEventListener('click', ()=>{
+      if(ambientAudio.paused){ ambientAudio.play(); toggleBtn.textContent='🔈 Ambient On'; }
+      else{ ambientAudio.pause(); toggleBtn.textContent='🔈 Ambient Off'; }
     });
-
-    // Optional goHome function
-    function goHome() {
-      window.location.href = "index.html";
-    }
   </script>
 </body>
 </html>
