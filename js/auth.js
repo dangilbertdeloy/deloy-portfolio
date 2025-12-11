@@ -1,4 +1,4 @@
-// Firebase imports
+// js/auth.js
 import { 
   initializeApp 
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
@@ -11,7 +11,7 @@ import {
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-// Your Firebase config
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCl5hlO_FK2Pl4un8S4rKbQNj9sYy5WLi0",
   authDomain: "dreamscape-portfolio.firebaseapp.com",
@@ -26,14 +26,32 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// -----------------------------
-// REGISTER USER
-// -----------------------------
+// Register new user
 export function registerUser(email, password) {
   return createUserWithEmailAndPassword(auth, email, password);
 }
 
-// -----------------------------
+// Login user
+export function loginUser(email, password) {
+  return signInWithEmailAndPassword(auth, email, password);
+}
+
+// Logout user
+export function logoutUser() {
+  return signOut(auth);
+}
+
+// Protect portfolio page
+export function protectPage() {
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = "login.html";
+    } else {
+      // Save the username/email to display dynamically
+      sessionStorage.setItem("currentUser", user.email);
+    }
+  });
+}
 // LOGIN USER
 // -----------------------------
 export function loginUser(email, password) {
