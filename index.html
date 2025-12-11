@@ -1,13 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dreamscape</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
-  <h1>Welcome to Dreamscape</h1>
+<body class="fade">
 
-  <a href="login.html">Log In</a><br>
-  <a href="register.html">Register</a>
+  <div class="overlay"></div>
+
+  <div id="loader" class="loader" style="display:none;">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <p>Welcome to your dreamspace…</p>
+    </div>
+  </div>
+
+  <canvas id="dreamCanvas"></canvas>
+  <div id="parallaxOrbs"></div>
+
+  <main class="content-layer index-container">
+    <header>
+      <h1>Welcome to Dreamscape ✦</h1>
+      <p class="sub">Step into your personalized dreamworld.</p>
+    </header>
+
+    <div class="auth-buttons">
+      <a href="login.html" class="glow-btn">Log In</a>
+      <a href="register.html" class="glow-btn">Register</a>
+    </div>
+
+    <div class="audio-control" style="margin-top:18px;">
+      <button id="audioToggleIndex" class="audio-btn">🔈 Ambient Off</button>
+    </div>
+  </main>
+
+  <audio id="ambientAudioIndex" loop src="audio/ambient.mp3"></audio>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Ambient music toggle
+    const ambientAudio = document.getElementById('ambientAudioIndex');
+    const toggleBtn = document.getElementById('audioToggleIndex');
+
+    toggleBtn.addEventListener('click', () => {
+      if (ambientAudio.paused) {
+        ambientAudio.play();
+        toggleBtn.textContent = '🔈 Ambient On';
+      } else {
+        ambientAudio.pause();
+        toggleBtn.textContent = '🔈 Ambient Off';
+      }
+    });
+
+    // Optional: goHome function used in other pages
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
 </body>
-</html>
 </html>
