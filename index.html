@@ -1,39 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dreamscape</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="fade">
 
   <div class="overlay"></div>
+
   <canvas id="dreamCanvas"></canvas>
   <div id="parallaxOrbs"></div>
 
   <div class="welcome-container content-layer">
     <h1 class="welcome-title">Welcome to Dreamscape</h1>
-    <p class="welcome-subtitle">Step into your dream world.</p>
+    <p class="welcome-subtitle">Where reality drifts into imagination.</p>
+
     <div class="button-group">
-      <button onclick="window.location.href='login.html'" class="glow-btn">Log In</button>
-      <button onclick="window.location.href='register.html'" class="glow-btn">Register</button>
+      <a href="login.html"><button class="glow-btn">Log In</button></a>
+      <a href="register.html"><button class="glow-btn">Register</button></a>
     </div>
+
+    <div class="audio-control">
+      <button id="audioToggleIndex" class="audio-btn">🔈 Ambient Off</button>
+    </div>
+
+    <audio id="ambientAudioIndex" loop src="audio/ambient.mp3"></audio>
   </div>
 
-  <audio id="ambientAudioIndex" loop src="audio/ambient.mp3"></audio>
-  <div class="audio-control" style="position:fixed; bottom:12px; left:50%; transform:translateX(-50%); z-index:5;">
-    <button id="audioToggleIndex" class="audio-btn">🔈 Ambient Off</button>
-  </div>
-
+  <script type="module" src="js/main.js"></script>
   <script type="module" src="js/particles.js"></script>
-  <script>
-    const ambientAudio = document.getElementById('ambientAudioIndex');
-    const toggleBtn = document.getElementById('audioToggleIndex');
-    toggleBtn.addEventListener('click', ()=>{
-      if(ambientAudio.paused){ ambientAudio.play(); toggleBtn.textContent='🔈 Ambient On'; }
-      else{ ambientAudio.pause(); toggleBtn.textContent='🔈 Ambient Off'; }
-    });
-  </script>
 </body>
 </html>
