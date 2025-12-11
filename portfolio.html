@@ -20,31 +20,32 @@
   <canvas id="dreamCanvas"></canvas>
   <div id="parallaxOrbs"></div>
 
+  <!-- Top navigation -->
   <nav class="top-nav content-layer">
     <div class="nav-left">
       <button class="nav-logo" onclick="goHome()">Dreamscape</button>
     </div>
     <div class="nav-right">
-      <button class="nav-btn" id="projectsBtn" onclick="scrollToSection('projects')">Projects</button>
-      <button class="nav-btn" id="aboutBtn" onclick="scrollToSection('about')">About</button>
-      <button class="nav-btn" id="audioTogglePortfolio">🔈</button>
-      <button class="nav-btn" id="logoutBtn">Log out</button>
+      <button class="nav-btn" onclick="scrollToSection('projects')">Projects</button>
+      <button class="nav-btn" onclick="scrollToSection('about')">About</button>
+      <button class="nav-btn" id="audioTogglePortfolio">🔈 Ambient Off</button>
+      <button class="nav-btn" onclick="logout()">Log out</button>
     </div>
   </nav>
 
   <main class="portfolio-container content-layer">
     <header>
-      <h1 class="portfolio-title">Welcome, <span id="usernameDisplay"></span> ✦</h1>
-      <p class="sub">Glad you're here, traveler.</p>
+      <h1 class="portfolio-title" id="welcomeUser">Welcome, traveler ✦</h1>
+      <p class="sub">Glad you're here in your dreamspace.</p>
     </header>
 
     <section id="about" class="about-me">
       <h2>About Me</h2>
       <div class="profile">
-        <img src="img/profile.png" class="profile-pic" alt="Your photo" />
+        <img src="img/profile.png" class="profile-pic" alt="Your photo (replace img/profile.png)" />
         <div class="personal-info">
           <p><strong>Name:</strong> Dan Gilbert P. Deloy</p>
-          <p><strong>Username:</strong> pocketful.of.sunshine</p>
+          <p><strong>Username:</strong> <span id="displayUsername">pocketful.of.sunshine</span></p>
           <p><strong>Email:</strong> dangilbertpdeloy@gmail.com</p>
           <p><strong>Bio:</strong> I am the creator of this website!</p>
         </div>
@@ -53,6 +54,7 @@
 
     <section id="projects" class="projects">
       <h2>Projects</h2>
+
       <div class="project-grid">
         <div class="project-card">
           <div class="project-head">
@@ -88,22 +90,75 @@
   <audio id="ambientAudioPortfolio" loop src="audio/ambient.mp3"></audio>
 
   <script type="module">
-    import { protectPage, logoutUser } from "./js/auth.js";
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-    protectPage();
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCl5hlO_FK2Pl4un8S4rKbQNj9sYy5WLi0",
+      authDomain: "dreamscape-portfolio.firebaseapp.com",
+      projectId: "dreamscape-portfolio",
+      storageBucket: "dreamscape-portfolio.firebasestorage.app",
+      messagingSenderId: "1008209469846",
+      appId: "1:1008209469846:web:080c4b22e8eb1cd9923db7",
+      measurementId: "G-4CS4205RSF"
+    };
 
-    // Display logged-in username
-    const userEmail = sessionStorage.getItem("currentUser");
-    document.getElementById("usernameDisplay").textContent = "pocketful.of.sunshine"; // Optional: parse from email if needed
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    // Logout
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      logoutUser().then(() => {
-        window.location.href = "login.html";
-      });
+    // Check login state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Use username from sessionStorage if available, else Firebase displayName
+        const username = sessionStorage.getItem("currentUser") || user.displayName || "traveler";
+        document.getElementById("welcomeUser").textContent = `Welcome, ${username} ✦`;
+        document.getElementById("displayUsername").textContent = username;
+      } else {
+        // Not logged in → redirect to index
+        window.location.href = "index.html";
+      }
     });
-  </script>
 
-  <script src="js/main.js"></script>
+    // Logout function
+    function logout() {
+      signOut(auth).then(() => {
+        sessionStorage.removeItem("currentUser");
+        window.location.href = "index.html";
+      });
+    }
+
+    window.logout = logout; // make it accessible in onclick
+
+    // Ambient music toggle
+    const ambientAudio = document.getElementById('ambientAudioPortfolio');
+    const toggleBtn = document.getElementById('audioTogglePortfolio');
+
+    toggleBtn.addEventListener('click', () => {
+      if (ambientAudio.paused) {
+        ambientAudio.play();
+        toggleBtn.textContent = '🔈 Ambient On';
+      } else {
+        ambientAudio.pause();
+        toggleBtn.textContent = '🔈 Ambient Off';
+      }
+    });
+
+    // Smooth scroll to section
+    window.scrollToSection = (id) => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Project expand toggle
+    window.toggleCard = (btn) => {
+      const card = btn.closest('.project-card');
+      card.classList.toggle('expanded');
+    };
+
+    // Optional goHome
+    window.goHome = () => { window.location.href = "index.html"; }
+  </script>
 </body>
 </html>
