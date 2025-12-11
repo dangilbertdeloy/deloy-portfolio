@@ -1,74 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Register - Dreamscape</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="fade">
+<body class="page-enter">
+
+  <div class="loader" style="display:flex"><div class="loader-inner"><div class="loader-ring"></div><p>Creating your dream…</p></div></div>
 
   <div class="overlay"></div>
   <canvas id="dreamCanvas"></canvas>
   <div id="parallaxOrbs"></div>
+  <div id="floatingShapes"></div>
 
   <div class="auth-container content-layer">
     <h2>Create Account</h2>
-    <form id="registerForm" onsubmit="return false;">
-      <input type="text" id="newUsername" placeholder="Username" required>
-      <input type="email" id="newEmail" placeholder="Email" required>
-      <input type="password" id="newPassword" placeholder="Password" required>
+    <form id="registerForm">
+      <input id="newUsername" placeholder="Username" required />
+      <input id="newPassword" type="password" placeholder="Password" required />
       <button class="glow-btn" type="submit">Register</button>
     </form>
-    <div class="auth-links">
-      <a href="login.html">Already have an account?</a> • <a onclick="goHome()" class="back-link">Back</a>
-    </div>
-    <div class="audio-control" style="margin-top:18px;">
+
+    <div class="auth-links"><a href="login.html">Already have an account?</a></div>
+    <button class="back-link" id="backBtnRegister">← Back</button>
+
+    <div class="audio-control">
       <button id="audioToggleRegister" class="audio-btn">🔈 Ambient Off</button>
+      <audio id="ambientAudioRegister" loop src="audio/ambient.mp3"></audio>
     </div>
   </div>
 
-  <audio id="ambientAudioRegister" loop src="audio/ambient.mp3"></audio>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCl5hlO_FK2Pl4un8S4rKbQNj9sYy5WLi0",
-      authDomain: "dreamscape-portfolio.firebaseapp.com",
-      projectId: "dreamscape-portfolio",
-      storageBucket: "dreamscape-portfolio.firebasestorage.app",
-      messagingSenderId: "1008209469846",
-      appId: "1:1008209469846:web:080c4b22e8eb1cd9923db7",
-      measurementId: "G-4CS4205RSF"
-    };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    const registerForm = document.getElementById("registerForm");
-    registerForm.addEventListener("submit", async e => {
-      e.preventDefault();
-      const username = document.getElementById("newUsername").value.trim();
-      const email = document.getElementById("newEmail").value.trim();
-      const password = document.getElementById("newPassword").value.trim();
-      try{
-        const userCredential = await createUserWithEmailAndPassword(auth,email,password);
-        await updateProfile(userCredential.user,{ displayName: username });
-        sessionStorage.setItem("currentUser", username);
-        window.location.href="portfolio.html";
-      }catch(err){ alert(err.message); }
-    });
-
-    const ambientAudio = document.getElementById('ambientAudioRegister');
-    const toggleBtn = document.getElementById('audioToggleRegister');
-    toggleBtn.addEventListener('click', ()=>{
-      if(ambientAudio.paused){ ambientAudio.play(); toggleBtn.textContent='🔈 Ambient On'; }
-      else{ ambientAudio.pause(); toggleBtn.textContent='🔈 Ambient Off'; }
-    });
-
-    function goHome(){ window.location.href='index.html'; }
-  </script>
+  <script type="module" src="js/main.js"></script>
   <script type="module" src="js/particles.js"></script>
 </body>
 </html>
