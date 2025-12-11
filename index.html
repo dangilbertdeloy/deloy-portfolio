@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dreamscape</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="fade">
+<body class="page-enter">
+
+  <div class="loader" style="display:flex"><div class="loader-inner"><div class="loader-ring"></div><p>Drift into Dreamscape…</p></div></div>
 
   <div class="overlay"></div>
-
   <canvas id="dreamCanvas"></canvas>
   <div id="parallaxOrbs"></div>
+  <div id="floatingShapes"></div>
 
   <div class="welcome-container content-layer">
     <h1 class="welcome-title">Welcome to Dreamscape</h1>
-    <p class="welcome-subtitle">Where reality drifts into imagination.</p>
+    <p class="welcome-subtitle">Where imagination breathes in color.</p>
 
     <div class="button-group">
       <a href="login.html"><button class="glow-btn">Log In</button></a>
@@ -24,9 +26,8 @@
 
     <div class="audio-control">
       <button id="audioToggleIndex" class="audio-btn">🔈 Ambient Off</button>
+      <audio id="ambientAudioIndex" loop src="audio/ambient.mp3"></audio>
     </div>
-
-    <audio id="ambientAudioIndex" loop src="audio/ambient.mp3"></audio>
   </div>
 
   <script type="module" src="js/main.js"></script>
