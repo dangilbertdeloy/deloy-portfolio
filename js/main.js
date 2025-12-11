@@ -1,39 +1,179 @@
-/* ======= Navigation helpers ======= */
-function goToLogin(){ window.location.href = "login.html"; }
-function goToRegister(){ window.location.href = "register.html"; }
-function goHome(){ window.location.href = "index.html"; }
-function logout(){ alert("Logged out."); window.location.href = "index.html"; }
+// js/main.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-/* ======= Loader behavior (hide on ready) ======= */
-document.addEventListener("DOMContentLoaded", ()=> {
-  const loader = document.getElementById("loader");
-  if(loader){
-    setTimeout(()=> loader.style.display = "none", 700);
+// ---------- Firebase config ----------
+const firebaseConfig = {
+  apiKey: "AIzaSyCl5hlO_FK2Pl4un8S4rKbQNj9sYy5WLi0",
+  authDomain: "dreamscape-portfolio.firebaseapp.com",
+  projectId: "dreamscape-portfolio",
+  storageBucket: "dreamscape-portfolio.firebasestorage.app",
+  messagingSenderId: "1008209469846",
+  appId: "1:1008209469846:web:080c4b22e8eb1cd9923db7",
+  measurementId: "G-4CS4205RSF"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Utility: get page name
+const page = window.location.pathname.split("/").pop() || "index.html";
+
+// ---------- Loader & page transitions ----------
+document.addEventListener("DOMContentLoaded", () => {
+  const loader = document.querySelector(".loader");
+  // show a short loader on page load then hide
+  if (loader) {
+    loader.style.display = "flex";
+    setTimeout(() => { loader.style.display = "none"; document.body.classList.add("page-ready"); }, 650);
+  } else {
+    document.body.classList.add("page-ready");
   }
 
-  // Initialize quotes banner on pages with it
-  initQuotes();
+  // Add small fade-out on link clicks for nicer transition
+  document.querySelectorAll("a, .glow-btn, .nav-logo, button").forEach(el => {
+    el.addEventListener("click", (e) => {
+      // only animate for navigation (links or explicit data-nav)
+      const href = (el.tagName === "A" && el.href) ? el.href : null;
+      if (href && href.indexOf(location.origin) === 0 && !e.defaultPrevented) {
+        // let normal link proceed but show fade
+        document.body.classList.remove("page-ready");
+        document.body.style.transition = "opacity .45s ease";
+        document.body.style.opacity = 0;
+        setTimeout(()=> { window.location = href; }, 420);
+        e.preventDefault();
+      }
+    });
+  });
+
+  // Setup audio toggles (works if buttons exist)
+  setupAudio("audioToggleIndex", "ambientAudioIndex");
+  setupAudio("audioToggleLogin", "ambientAudioLogin");
+  setupAudio("audioToggleRegister", "ambientAudioRegister");
+  setupAudio("audioTogglePortfolio", "ambientAudioPortfolio");
 });
 
-/* ======= Hardcoded login ======= */
-const validUser = { username: "pocketful.of.sunshine", password: "sunny123" };
-
-/* Login form */
-const loginForm = document.getElementById("loginForm");
-if(loginForm){
-  loginForm.addEventListener("submit", e=>{
-    e.preventDefault();
-    const u = document.getElementById("username").value;
-    const p = document.getElementById("password").value;
-    if(u === validUser.username && p === validUser.password){
-      showLoaderThen(() => window.location.href = "portfolio.html");
-    } else {
-      alert("Invalid username or password.");
-    }
-  });
+// ---------- Auth: Register ----------
+if (page === "register.html") {
+  const form = document.getElementById("registerForm");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const usernameField = document.getElementById("newUsername");
+      const passField = document.getElementById("newPassword");
+      const username = usernameField.value.trim();
+      const password = passField.value.trim();
+      // create synthetic email from username (keeps UI simple)
+      const email = username + "@dreamscape.local";
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: username });
+        // save for display
+        sessionStorage.setItem("currentUser", username);
+        // redirect to portfolio
+        window.location.href = "portfolio.html";
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  }
 }
 
-/* Register form (fake) */
+// ---------- Auth: Login ----------
+if (page === "login.html") {
+  const form = document.getElementById("loginForm");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const userField = document.getElementById("loginUsername");
+      const passField = document.getElementById("loginPassword");
+      const username = userField.value.trim();
+      const password = passField.value.trim();
+      const email = username + "@dreamscape.local";
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        // store current user for portfolio display
+        sessionStorage.setItem("currentUser", username);
+        window.location.href = "portfolio.html";
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  }
+
+  // back button
+  const backBtn = document.getElementById("backBtnLogin");
+  if (backBtn) backBtn.addEventListener("click", () => window.location.href = "index.html");
+}
+
+// ---------- Portfolio: protect page & show user ----------
+if (page === "portfolio.html") {
+  onAuthStateChanged(auth, (user) => {
+    // if no user, redirect to login
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+    // get display name
+    const displayName = sessionStorage.getItem("currentUser") || user.displayName || user.email || "Traveler";
+    const el = document.getElementById("portfolioUser");
+    const el2 = document.getElementById("usernameDisplay");
+    if (el) el.textContent = displayName;
+    if (el2) el2.textContent = displayName;
+  });
+
+  // logout
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      sessionStorage.removeItem("currentUser");
+      window.location.href = "index.html";
+    });
+  }
+}
+
+// back button on register
+if (page === "register.html") {
+  const backBtn = document.getElementById("backBtnRegister");
+  if (backBtn) backBtn.addEventListener("click", () => window.location.href = "index.html");
+}
+
+// project expand helper (delegate)
+window.toggleCard = (btn) => {
+  const card = btn.closest(".project-card");
+  if (card) card.classList.toggle("expanded");
+};
+
+// scroll helper
+window.scrollToSection = (id) => {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+};
+
+// ---------- audio helper ----------
+function setupAudio(btnId, audioId) {
+  const btn = document.getElementById(btnId);
+  const audio = document.getElementById(audioId);
+  if (!btn || !audio) return;
+
+  audio.volume = 0.35; // comfortable default
+
+  // Ensure autoplay doesn't crash — wait for user gesture if blocked
+  btn.addEventListener("click", async () => {
+    if (audio.paused) { try { await audio.play(); } catch(e) { /* autoplay blocked */ } btn.textContent = "🔊 Ambient On"; }
+    else { audio.pause(); btn.textContent = "🔈 Ambient Off"; }
+  });
+
+  audio.addEventListener("play", () => btn.textContent = "🔊 Ambient On");
+  audio.addEventListener("pause", () => btn.textContent = "🔈 Ambient Off");
+}
 const registerForm = document.getElementById("registerForm");
 if(registerForm){
   registerForm.addEventListener("submit", e=>{
