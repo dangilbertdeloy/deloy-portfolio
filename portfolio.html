@@ -3,29 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Dreamscape Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+  <!-- Background music -->
+  <audio id="bg-music" src="audio/ambient.mp3" autoplay loop></audio>
+
+  <!-- Your portfolio content -->
   <h1>Welcome to Dreamscape ✨</h1>
-
-  <img src="img/profile.png" width="200">
-
+  <img src="img/profile.png" alt="Profile Picture" width="200">
   <p>This is your portfolio dashboard.</p>
-
   <button id="logoutBtn">Log Out</button>
 
   <script type="module">
     import { protectPage, logoutUser } from "./js/auth.js";
 
+    // Protect page from non-logged in users
     protectPage();
 
+    // Logout functionality
     document.getElementById("logoutBtn").addEventListener("click", () => {
       logoutUser().then(() => {
         window.location.href = "login.html";
       });
     });
   </script>
-
 </body>
-</html>
 </html>
