@@ -9,31 +9,104 @@
 <body class="fade">
 
   <div class="overlay"></div>
-
-  <div id="loader" class="loader" style="display:none;">
-    <div class="loader-inner">
-      <div class="loader-ring"></div>
-      <p>Welcome back to your dreamspace…</p>
-    </div>
-  </div>
-
   <canvas id="dreamCanvas"></canvas>
   <div id="parallaxOrbs"></div>
 
-  <!-- Top navigation -->
+  <!-- top nav -->
   <nav class="top-nav content-layer">
     <div class="nav-left">
       <button class="nav-logo" onclick="goHome()">Dreamscape</button>
     </div>
     <div class="nav-right">
-      <button class="nav-btn" onclick="scrollToSection('projects')">Projects</button>
-      <button class="nav-btn" onclick="scrollToSection('about')">About</button>
-      <button class="nav-btn" id="audioTogglePortfolio">🔈 Ambient Off</button>
+      <button class="nav-btn" id="projectsBtn" onclick="scrollToSection('projects')">Projects</button>
+      <button class="nav-btn" id="aboutBtn" onclick="scrollToSection('about')">About</button>
+      <button class="nav-btn" id="audioTogglePortfolio">🔈</button>
       <button class="nav-btn" onclick="logout()">Log out</button>
     </div>
   </nav>
 
   <main class="portfolio-container content-layer">
+    <header>
+      <h1 class="portfolio-title">Welcome, <span id="userNameDisplay">Traveler</span> ✦</h1>
+      <p class="sub">Glad you're here, traveler.</p>
+    </header>
+
+    <section id="about" class="about-me">
+      <h2>About Me</h2>
+      <div class="profile">
+        <img src="img/profile.png" class="profile-pic" alt="Your photo (replace img/profile.png)" />
+        <div class="personal-info">
+          <p><strong>Name:</strong> Dan Gilbert P. Deloy</p>
+          <p><strong>Username:</strong> pocketful.of.sunshine</p>
+          <p><strong>Email:</strong> dangilbertpdeloy@gmail.com</p>
+          <p><strong>Bio:</strong> I am the creator of this website!</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <h2>Projects</h2>
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="project-head">
+            <h3>Project A — Dream Visuals</h3>
+            <button class="expand-btn" onclick="toggleCard(this)">+</button>
+          </div>
+          <div class="project-body">
+            <p>Short description of Project A. Click expand for details.</p>
+            <div class="project-details">
+              <p>- Built with HTML/CSS/JS</p>
+              <p>- Dreamcore particle engine, parallax orbs, animated UI</p>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-head">
+            <h3>Project B — Interactive Portfolio</h3>
+            <button class="expand-btn" onclick="toggleCard(this)">+</button>
+          </div>
+          <div class="project-body">
+            <p>Short description of Project B.</p>
+            <div class="project-details">
+              <p>- Responsive layout</p>
+              <p>- Smooth transitions and ambient toggle</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <audio id="ambientAudioPortfolio" loop src="audio/ambient.mp3"></audio>
+
+  <script type="module">
+    // Load username from session
+    const userNameDisplay = document.getElementById("userNameDisplay");
+    const currentUser = sessionStorage.getItem("currentUser");
+    if(currentUser) userNameDisplay.textContent = currentUser;
+
+    function scrollToSection(id){
+      document.getElementById(id).scrollIntoView({behavior:"smooth"});
+    }
+
+    function toggleCard(btn){
+      const card = btn.closest('.project-card');
+      card.classList.toggle('expanded');
+    }
+
+    const ambientAudio = document.getElementById('ambientAudioPortfolio');
+    const toggleBtn = document.getElementById('audioTogglePortfolio');
+    toggleBtn.addEventListener('click', ()=>{
+      if(ambientAudio.paused){ ambientAudio.play(); toggleBtn.textContent='🔈 Ambient On'; }
+      else{ ambientAudio.pause(); toggleBtn.textContent='🔈 Ambient Off'; }
+    });
+
+    function logout(){ sessionStorage.removeItem('currentUser'); window.location.href='index.html'; }
+    function goHome(){ window.location.href='index.html'; }
+  </script>
+  <script type="module" src="js/particles.js"></script>
+</body>
+</html>
     <header>
       <h1 class="portfolio-title" id="welcomeUser">Welcome, traveler ✦</h1>
       <p class="sub">Glad you're here in your dreamspace.</p>
@@ -162,3 +235,4 @@
   </script>
 </body>
 </html>
+
