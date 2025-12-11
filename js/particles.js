@@ -68,6 +68,40 @@ if(parallax){
     parallax.appendChild(orb);
   }
 }
+      if(o.x<0 || o.x>width) o.dx*=-1;
+      if(o.y<0 || o.y>height) o.dy*=-1;
+
+      // fade in/out
+      o.opacity += o.dOpacity;
+      if(o.opacity > 0.8 || o.opacity < 0.1) o.dOpacity *= -1;
+    });
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  window.addEventListener('resize', ()=>{
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+}
+
+// Parallax blurred orbs
+const parallax = document.getElementById('parallaxOrbs');
+if(parallax){
+  for(let i=0;i<25;i++){ // more smaller blurred orbs
+    const orb = document.createElement('div');
+    orb.className = 'orb';
+    orb.style.left = `${Math.random()*100}%`;
+    orb.style.top = `${Math.random()*100}%`;
+    const size = 30 + Math.random()*80; // smaller sizes
+    orb.style.width = `${size}px`;
+    orb.style.height = `${size}px`;
+    orb.style.opacity = Math.random()*0.4 + 0.2; // subtle opacity
+    orb.style.animationDuration = `${8 + Math.random()*8}s`; // different float speeds
+    parallax.appendChild(orb);
+  }
+}
   window.addEventListener('resize', ()=>{
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
