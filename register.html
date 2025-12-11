@@ -1,27 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Register - Dreamscape</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body class="fade">
 
-  <h1>Create Your Account</h1>
+  <div class="overlay"></div>
 
-  <form id="registerForm">
-    <input type="email" id="regEmail" placeholder="Email" required><br>
-    <input type="password" id="regPass" placeholder="Password" required><br>
-    <button type="submit">Register</button>
-  </form>
+  <div id="loader" class="loader" style="display:none;">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <p>Creating your dream...</p>
+    </div>
+  </div>
 
-  <p>Already have an account? <a href="login.html">Log-in</a></p>
+  <canvas id="dreamCanvas"></canvas>
+  <div id="parallaxOrbs"></div>
+
+  <div class="auth-container content-layer">
+    <h2>Create Account</h2>
+
+    <form id="registerForm">
+      <input type="email" id="regEmail" placeholder="Email" required />
+      <input type="password" id="regPass" placeholder="Password" required />
+      <button class="glow-btn" type="submit">Register</button>
+    </form>
+
+    <div class="auth-links">
+      <a href="login.html">Already have account?</a> • <a onclick="goHome()" class="back-link">Back</a>
+    </div>
+
+    <div class="audio-control" style="margin-top:18px;">
+      <button id="audioToggleRegister" class="audio-btn">🔈 Ambient Off</button>
+    </div>
+  </div>
+
+  <audio id="ambientAudioRegister" loop src="audio/ambient.mp3"></audio>
 
   <script type="module">
     import { registerUser } from "./js/auth.js";
 
     document.getElementById("registerForm").addEventListener("submit", (e) => {
       e.preventDefault();
-
       const email = document.getElementById("regEmail").value;
       const pass = document.getElementById("regPass").value;
 
@@ -33,6 +56,6 @@
     });
   </script>
 
+  <script src="js/main.js"></script>
 </body>
-</html>
 </html>
