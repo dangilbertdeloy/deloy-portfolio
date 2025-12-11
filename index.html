@@ -20,25 +20,25 @@
   <canvas id="dreamCanvas"></canvas>
   <div id="parallaxOrbs"></div>
 
+  <!-- Main content centered -->
   <main class="content-layer index-container">
-    <header>
-      <h1>Welcome to Dreamscape ✦</h1>
-      <p class="sub">Step into your personalized dreamworld.</p>
-    </header>
+    <div class="welcome-container">
+      <h1 class="welcome-title">Welcome to Dreamscape ✦</h1>
+      <p class="welcome-subtitle">Step into your personalized dreamworld.</p>
 
-    <div class="auth-buttons">
-      <a href="login.html" class="glow-btn">Log In</a>
-      <a href="register.html" class="glow-btn">Register</a>
-    </div>
+      <div class="button-group">
+        <a href="login.html" class="glow-btn">Log In</a>
+        <a href="register.html" class="glow-btn">Register</a>
+      </div>
 
-    <div class="audio-control" style="margin-top:18px;">
-      <button id="audioToggleIndex" class="audio-btn">🔈 Ambient Off</button>
+      <div class="audio-control">
+        <button id="audioToggleIndex" class="audio-btn">🔈 Ambient Off</button>
+      </div>
     </div>
   </main>
 
   <audio id="ambientAudioIndex" loop src="audio/ambient.mp3"></audio>
 
-  <script src="js/main.js"></script>
   <script>
     // Ambient music toggle
     const ambientAudio = document.getElementById('ambientAudioIndex');
@@ -54,7 +54,7 @@
       }
     });
 
-    // Optional: goHome function used in other pages
+    // Optional goHome function
     function goHome() {
       window.location.href = "index.html";
     }
