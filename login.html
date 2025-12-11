@@ -1,45 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Log In - Dreamscape</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <title>Login - Dreamscape</title>
 </head>
-<body class="fade">
+<body>
 
-  <div class="overlay"></div>
+  <h1>Welcome Back</h1>
 
-  <div id="loader" class="loader" style="display:none;">
-    <div class="loader-inner">
-      <div class="loader-ring"></div>
-      <p>Entering Dreamscape...</p>
-    </div>
-  </div>
+  <form id="loginForm">
+    <input type="email" id="loginEmail" placeholder="Email" required><br>
+    <input type="password" id="loginPass" placeholder="Password" required><br>
+    <button type="submit">Log In</button>
+  </form>
 
-  <canvas id="dreamCanvas"></canvas>
-  <div id="parallaxOrbs"></div>
+  <p>No account? <a href="register.html">Register</a></p>
 
-  <div class="auth-container content-layer">
-    <h2>Log In</h2>
+  <script type="module">
+    import { loginUser } from "./js/auth.js";
 
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button class="glow-btn" type="submit">Enter Dreamscape</button>
-    </form>
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
 
-    <div class="auth-links">
-      <a href="register.html">Create account</a> • <a onclick="goHome()" class="back-link">Back</a>
-    </div>
+      const email = document.getElementById("loginEmail").value;
+      const pass = document.getElementById("loginPass").value;
 
-    <div class="audio-control" style="margin-top:18px;">
-      <button id="audioToggleLogin" class="audio-btn">🔈 Ambient Off</button>
-    </div>
-  </div>
+      loginUser(email, pass)
+        .then(() => {
+          window.location.href = "portfolio.html";
+        })
+        .catch(error => alert(error.message));
+    });
+  </script>
 
-  <audio id="ambientAudioLogin" loop src="audio/ambient.mp3"></audio>
-
-  <script src="js/main.js"></script>
 </body>
 </html>
